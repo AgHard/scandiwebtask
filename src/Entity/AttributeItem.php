@@ -19,58 +19,40 @@ class AttributeItem
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Attribute")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BaseAttribute")
      * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id")
      */
     private $attribute;
 
-
     /**
      * @ORM\Column(type="string")
      */
-    private $displayValue;
+    private $detail;
 
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $value;
-
-    // Getters and setters
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getAttribute(): ?Attribute
+    public function getAttribute(): ?BaseAttribute
     {
         return $this->attribute;
     }
 
-    public function setAttribute(?Attribute $attribute): self
+    public function setAttribute(?BaseAttribute $attribute): self
     {
         $this->attribute = $attribute;
         return $this;
     }
 
-    public function getDisplayValue(): ?string
+    public function getDetail(): ?string
     {
-        return $this->displayValue;
+        return $this->detail;
     }
 
-    public function setDisplayValue(string $displayValue): self
+    public function setDetail(string $detail): self
     {
-        $this->displayValue = $displayValue;
-        return $this;
-    }
-
-    public function getValue(): ?string
-    {
-        return $this->value;
-    }
-
-    public function setValue(string $value): self
-    {
-        $this->value = $value;
+        $this->detail = $detail;
         return $this;
     }
 }

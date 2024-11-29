@@ -3,75 +3,34 @@
 
 namespace App\Entity;
 
+namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="attributes_base")
  */
-class Attribute
+class Attribute extends BaseAttribute
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $id;
+    private $value;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     */
-    private $product;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $name;
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $type;
-
-
-    // Getters and setters
-    public function getId(): ?int
+    public function getValue(): ?string
     {
-        return $this->id;
+        return $this->value;
     }
 
-    public function getProduct(): ?Product
+    public function setValue(?string $value): self
     {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
+        $this->value = $value;
         return $this;
     }
 
-    public function getName(): ?string
+    public function getAttributeDetails(): string
     {
-        return $this->name;
+        return "Attribute: " . $this->name . " with value " . $this->value;
     }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): self
-    {
-        $this->type = $type;
-        return $this;
-    }
-
 }

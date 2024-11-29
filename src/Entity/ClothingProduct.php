@@ -28,13 +28,14 @@ class ClothingProduct extends Product
      */
     private $color;
 
-    // Implementing the abstract method
     public function getProductDescription(): string
     {
-        return "Clothing product description: " . $this->description . " in size " . $this->size . ", material: " . $this->material . ", color: " . $this->color;
+        return "Clothing product description: " . $this->description . 
+               " in size " . $this->size . 
+               ", material: " . $this->material . 
+               ", color: " . $this->color;
     }
 
-    // Getters and setters for size, material, and color
     public function getSize(): ?string
     {
         return $this->size;

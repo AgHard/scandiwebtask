@@ -9,43 +9,26 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="categories")
  */
-class Category
+class Category extends BaseCategory
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $id;
+    private $isParent;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
-    // Getter for id
-    public function getId(): ?int
+    public function getCategoryType(): string
     {
-        return $this->id;
+        return $this->isParent ? "Parent Category" : "Child Category";
     }
 
-    // Setter for id
-    public function setId(int $id): self
+    public function getIsParent(): ?bool
     {
-        $this->id = $id;
-        return $this;
+        return $this->isParent;
     }
 
-    // Getter for name
-    public function getName(): ?string
+    public function setIsParent(?bool $isParent): self
     {
-        return $this->name;
-    }
-
-    // Setter for name
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+        $this->isParent = $isParent;
         return $this;
     }
 }

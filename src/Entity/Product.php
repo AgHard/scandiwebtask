@@ -3,7 +3,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Price;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="products_base")
  */
-class Product
+abstract class Product
 {
     /**
      * @ORM\Id
@@ -60,7 +59,6 @@ class Product
         $this->prices = new ArrayCollection();
     }
 
-    // Common methods
     public function getId(): ?string
     {
         return $this->id;
@@ -90,8 +88,7 @@ class Product
 
     public function getDescription(): ?string
     {
-        // Temporary stripping of special characters for debugging
-        return preg_replace('/[^(\x20-\x7F)]*/', '', $this->description);
+        return $this->description;
     }
 
     public function setDescription(?string $description): self
@@ -132,6 +129,7 @@ class Product
         $this->productType = $productType;
         return $this;
     }
+
     /**
      * Get prices for the product
      *
@@ -143,8 +141,5 @@ class Product
     }
 
     // Abstract method for product-specific description
-    public function getProductDescription(): string
-    {
-        return "";
-    }
+    abstract public function getProductDescription(): string;
 }

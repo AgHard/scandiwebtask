@@ -7,43 +7,14 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="galleries")
+ * @ORM\Table(name="image_galleries")
  */
-class Gallery
+class ImageGallery extends BaseGallery
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="galleries")
-     * @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     */
-    private $product;
-
-    /**
-     * @ORM\Column(name="image_url", type="string", length=255)
+     * @ORM\Column(name="image_url", type="string")
      */
     private $imageUrl;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): self
-    {
-        $this->product = $product;
-        return $this;
-    }
 
     public function getImageUrl(): ?string
     {
@@ -54,5 +25,10 @@ class Gallery
     {
         $this->imageUrl = $imageUrl;
         return $this;
+    }
+
+    public function getMediaDetails(): string
+    {
+        return "Image URL: " . $this->imageUrl;
     }
 }

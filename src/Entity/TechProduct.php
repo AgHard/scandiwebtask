@@ -11,11 +11,24 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TechProduct extends Product
 {
-    // Example tech-specific field
-    protected $specs;
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    private $specs;
 
     public function getProductDescription(): string
     {
         return "Tech product description: " . $this->description;
+    }
+
+    public function getSpecs(): ?array
+    {
+        return $this->specs;
+    }
+
+    public function setSpecs(?array $specs): self
+    {
+        $this->specs = $specs;
+        return $this;
     }
 }
