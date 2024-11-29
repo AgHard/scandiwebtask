@@ -1,0 +1,362 @@
+.product-details-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 65px;
+}
+
+.product-gallery-section {
+  display: flex;
+  flex-direction: column; 
+  flex-basis: 10%; 
+  gap: 5px; 
+  max-height: 500px; 
+  overflow-y: auto;
+  transform: matrix(1, 0, 0, 1, 0, 0);
+}
+
+.image-thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transform: matrix(1, 0, 0, 1, 0, 0);
+  visibility:visible;
+}
+
+.product-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* .product-info h2 {
+  font-size: 24px;
+  margin: 0;
+} */
+
+/* .product-info p {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 5px 0;
+} */
+
+/* .product-attribute label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+} */
+
+/* .product-attribute {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+} */
+
+.capacity-options button,
+.size-options button,
+.usb-ports-options button,
+.touch-id-options button,
+.color-switch {
+  margin-right: 10px;
+  margin-top: 10px;
+  /* padding: 8px; */
+  border: 1px solid #ffffff;
+  cursor: pointer;
+}
+
+/* General button styles for capacity, size, USB ports, and touch ID */
+.capacity-options button,
+.size-options button,
+.usb-ports-options button,
+.touch-id-options button {
+  background-color: rgb(255, 255, 255);
+  border: 1px solid #1D1F22;
+  box-sizing: border-box;
+  width: 63px;
+  height: 45px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 16px;
+  transition: background-color 0.3s ease, border 0.3s ease; 
+}
+
+.capacity-options button:hover,
+.size-options button:hover,
+.usb-ports-options button:hover,
+.touch-id-options button:hover {
+  background-color: #e4e2f7; /* Hover effect for all buttons */
+}
+
+.capacity-options button.selected,
+.size-options button.selected,
+.usb-ports-options button.selected,
+.touch-id-options button.selected {
+
+  box-sizing: border-box;
+
+  width: 63px;
+  height: 45px;
+
+  background: #1D1F22;
+  border: 1px solid #1D1F22;
+  color: #ffffff;
+}
+
+.color-switch {
+  width: 40px;
+  height: 40px;
+}
+
+.selected {
+  border: 2px solid #5ECE7B;
+}
+
+.add-to-cart-button {
+  display: flex;
+flex-direction: column;
+align-items: center;
+padding: 16px 32px;
+
+width: 292px;
+height: 52px;
+
+background: #5ECE7B;
+
+/* --button-font */
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 600;
+font-size: 16px;
+line-height: 200%;
+/* identical to box height, or 19px */
+display: flex;
+align-items: center;
+text-align: center;
+text-transform: uppercase;
+
+/* --c-white */
+color: #FFFFFF;
+
+
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+}
+
+.add-to-cart-button.disabled {
+  background-color: gray; /* Or any other color to indicate disabled state */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.add-to-cart-button:hover {
+  background-color: #008552;
+}
+
+.image-thumbnails img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.image-thumbnails img:hover {
+  transform: scale(1.05);
+  border-color: #00A86B;
+}
+
+.product-slider-section {
+  flex-basis: 50%; /* Slider takes up 50% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.main-image-box {
+  width: 100%;
+  max-width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.main-image-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Arrow button styles */
+.prev-button,
+.next-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+}
+
+.prev-button {
+  left: 0px;
+}
+
+.next-button {
+  right: 0px;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.product-info {
+  flex-basis: 70%; /* Product info takes up 30% */
+}
+
+.add-to-cart-button {
+  background-color: #00A86B;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.image-thumbnails {
+  max-height: 100%; /* Set the max height */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Gap between thumbnails */
+}
+
+.thumbnail {
+  width: 80px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  border: 1px solid #e0e0e0;
+}
+
+.thumbnail.selected {
+  border-color: #00A86B; /* Highlight selected thumbnail */
+}
+
+.thumbnail:hover {
+  transform: scale(1.05); /* Enlarge on hover */
+  border-color: #00A86B;
+}
+
+
+.thumbnail.selected {
+  border: 2px solid #00A86B;
+  transform: scale(1.1);
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+  background-color: #008552;
+}
+
+@media (max-width: 768px) {
+  .product-details-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .main-image-box {
+    width: 100%;
+    max-width: none;
+  }
+
+  .image-thumbnails img {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.price-heading {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  color: #1D1F22;
+}
+
+.product-name{
+
+font-family: 'Raleway';
+font-style: normal;
+font-weight: 600;
+font-size: 30px;
+line-height: 27px;
+/* identical to box height, or 90% */
+display: flex;
+align-items: center;
+
+color: #1D1F22;
+}
+
+.product-props{
+  font-family: 'Roboto Condensed';
+font-style: normal;
+font-weight: 700;
+font-size: 18px;
+line-height: 18px;
+/* identical to box height, or 100% */
+display: flex;
+align-items: center;
+text-align: center;
+
+color: #1D1F22;
+}
+
+.product-description{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 159.96%;
+color: #1D1F22;
+}
+
+/* .color-option{
+  width: 36px;
+  height: 36px;
+  
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  width: 32px;
+  height: 32px;
+  
+  
+  background: #D3D2D5;
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  
+  border: 1px solid #5ECE7B;
+} */

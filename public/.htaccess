@@ -1,0 +1,19 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Serve static files from the frontend build folder (React app)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ ../frontend/build/$1 [L]
+
+    # If the requested file doesn't exist, serve the React app's index.html
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ ../frontend/build/index.html [L]
+
+    # Route GraphQL API requests to graphql.php in the root directory
+    RewriteCond %{REQUEST_URI} ^/graphql.php$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^graphql.php$ ../graphql.php [QSA,L]
+</IfModule>

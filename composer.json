@@ -1,0 +1,26 @@
+{
+    "name": "yasse/ecommerceproject",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AgHard",
+            "email": "luedice57@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "doctrine/dbal": "^2.13",
+        "doctrine/orm": "^2.10",
+        "webonyx/graphql-php": "^15.14",
+        "symfony/http-foundation": "^5.2",
+        "doctrine/cache": "^2.2",
+        "symfony/cache": "^6.4",
+        "doctrine/annotations": "^2.0",
+        "guzzlehttp/guzzle": "^7.9",
+        "overblog/graphql-bundle": "^1.6"
+    }
+}
