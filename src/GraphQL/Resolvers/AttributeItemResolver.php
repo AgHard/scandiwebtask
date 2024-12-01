@@ -4,7 +4,7 @@
 namespace App\GraphQL\Resolvers;
 
 use Doctrine\ORM\EntityManager;
-use App\Entity\AttributeItem;
+use App\Entity\BaseAttributeItem;
 
 class AttributeItemResolver
 {
@@ -18,7 +18,7 @@ class AttributeItemResolver
     public function resolveAttributeItems()
     {
         // Fetch all attribute items from the database
-        $attributeItems = $this->entityManager->getRepository(AttributeItem::class)->findAll();
+        $attributeItems = $this->entityManager->getRepository(BaseAttributeItem::class)->findAll();
 
         if (!$attributeItems) {
             throw new \Exception('No attribute items found.');
@@ -41,7 +41,7 @@ class AttributeItemResolver
     public function resolveAttributeItemsByAttribute($attributeId)
     {
         // Fetch attribute items by attribute ID
-        $attributeItems = $this->entityManager->getRepository(AttributeItem::class)->findBy(['attribute' => $attributeId]);
+        $attributeItems = $this->entityManager->getRepository(BaseAttributeItem::class)->findBy(['attribute' => $attributeId]);
 
         if (!$attributeItems) {
             throw new \Exception('No attribute items found for attribute ID: ' . $attributeId);
@@ -52,7 +52,7 @@ class AttributeItemResolver
         foreach ($attributeItems as $item) {
             $attributeItemData[] = [
                 'id' => $item->getId(),
-                'display_value' => $item->getDisplayValue(),
+                'display_value' => $item->getItemDetails(),
                 'value' => $item->getValue(),
                 'attribute' => $item->getAttribute()->getId() // Return the ID of the related attribute
             ];

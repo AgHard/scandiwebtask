@@ -4,7 +4,7 @@
 namespace App\GraphQL\Resolvers;
 
 use Doctrine\ORM\EntityManager;
-use App\Entity\Gallery;
+use App\Entity\BaseGallery;
 
 class GalleryResolver
 {
@@ -15,47 +15,21 @@ class GalleryResolver
         $this->entityManager = $entityManager;
     }
 
-    public function resolveGalleries()
-    {
-        // Fetch all galleries from the database
-        $galleries = $this->entityManager->getRepository(Gallery::class)->findAll();
-
-        if (!$galleries) {
-            throw new \Exception('No galleries found.');
-        }
-
-        // Map galleries to the expected format
-        $galleryData = [];
-        foreach ($galleries as $gallery) {
-            $galleryData[] = [
-                'id' => $gallery->getId(),
-                'imageUrl' => $gallery->getImageUrl(),
-                'product' => $gallery->getProduct()->getId() // Return product ID
-            ];
-        }
-
-        return $galleryData;
-    }
-
     public function resolveGalleriesByProduct($productId)
     {
         // Fetch galleries by product ID
-        $galleries = $this->entityManager->getRepository(Gallery::class)->findBy(['product' => $productId]);
+        $galleries = $this->entityManager->getRepository(BaseGallery::class)->findBy(['product' => $productId]);
 
         if (!$galleries) {
             throw new \Exception('No galleries found for product ID: ' . $productId);
         }
 
-        // Map galleries to the expected format
-        $galleryData = [];
-        foreach ($galleries as $gallery) {
-            $galleryData[] = [
+        return array_map(function (BaseGallery $gallery) {
+            return [
                 'id' => $gallery->getId(),
-                'imageUrl' => $gallery->getImageUrl(),
-                'product' => $gallery->getProduct()->getId() // Return product ID
+                'mediaDetails' => $gallery->getMediaDetails(), // Polymorphic call
+                'product' => $gallery->getProduct()->getId(),
             ];
-        }
-
-        return $galleryData;
+        }, $galleries);
     }
 }

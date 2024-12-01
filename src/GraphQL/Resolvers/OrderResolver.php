@@ -4,7 +4,7 @@
 namespace App\GraphQL\Resolvers;
 
 use Doctrine\ORM\EntityManager;
-use App\Entity\Order;
+use App\Entity\BaseOrder;
 
 class OrderResolver
 {
@@ -17,64 +17,36 @@ class OrderResolver
 
     public function resolveOrders()
     {
-        // Fetch all orders from the database
-        $orders = $this->entityManager->getRepository(Order::class)->findAll();
-        
+        $orders = $this->entityManager->getRepository(BaseOrder::class)->findAll();
+
         if (!$orders) {
             throw new \Exception('No orders found.');
         }
 
-        // Return formatted orders
-        return $this->formatOrders($orders);
+        return array_map([$this, 'formatOrder'], $orders);
     }
 
-    public function resolveOrderById($orderId)
-    {
-        // Fetch order by ID
-        $order = $this->entityManager->getRepository(Order::class)->find($orderId);
-
-        if (!$order) {
-            throw new \Exception('Order not found with ID: ' . $orderId);
-        }
-
-        // Return formatted order
-        return $this->formatOrder($order);
-    }
-
-    private function formatOrders($orders)
-    {
-        $orderData = [];
-        foreach ($orders as $order) {
-            $orderData[] = $this->formatOrder($order);
-        }
-        return $orderData;
-    }
-
-    private function formatOrder(Order $order)
+    private function formatOrder(BaseOrder $order)
     {
         return [
             'id' => $order->getId(),
             'totalAmount' => $order->getTotalAmount(),
             'createdAt' => $order->getCreatedAt()->format('Y-m-d H:i:s'),
-            'products' => $this->resolveProductsByOrder($order)
+            'details' => $order->getOrderDetails(), // Polymorphic call
+            'products' => $this->resolveProductsByOrder($order),
         ];
     }
 
-    private function resolveProductsByOrder(Order $order)
+    private function resolveProductsByOrder(BaseOrder $order)
     {
-        $products = $order->getProducts();
-        $productData = [];
-        
-        foreach ($products as $product) {
-            $productData[] = [
+        return array_map(function ($product) {
+            return [
                 'id' => $product->getId(),
                 'name' => $product->getName(),
                 'description' => $product->getDescription(),
-                'inStock' => $product->getInStock(),
-                'category' => $product->getCategory(),
             ];
-        }
-
-        return $productData;
+        }, $order->getProducts()->toArray()); // Fix: Convert Collection to array
     }
+
+
 }

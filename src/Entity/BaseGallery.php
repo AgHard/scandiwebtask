@@ -23,6 +23,11 @@ abstract class BaseGallery
      */
     protected $product;
 
+    /**
+     * @ORM\Column(name="image_url", type="string")
+     */
+    private $imageUrl;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +41,17 @@ abstract class BaseGallery
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
+        return $this;
+    }
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl): self
+    {
+        $this->imageUrl = $imageUrl;
         return $this;
     }
 

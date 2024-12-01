@@ -22,6 +22,9 @@ class AttributeType extends ObjectType
                 'type' => [
                     'type' => Type::string(),
                 ],
+                'details' => [
+                    'type' => Type::string(),
+                ],
                 'items' => [
                     'type' => Type::listOf(Type::nonNull($attributeItemType)), // Reuse the passed instance
                 ],

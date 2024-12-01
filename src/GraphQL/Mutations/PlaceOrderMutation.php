@@ -3,7 +3,6 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use GraphQL\Type\Definition\ObjectType;
 use App\Entity\Order;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManager;
@@ -20,7 +19,8 @@ class PlaceOrderMutation
     public function resolve($root, $args)
     {
         try {
-            $order = new Order();
+            // Create a new Order instance
+            $order = new Order(); // Polymorphism allows other types of orders in the future
             $totalAmount = 0;
 
             foreach ($args['cartItems'] as $item) {
@@ -30,17 +30,18 @@ class PlaceOrderMutation
                     throw new \Exception('Product not found with ID: ' . $item['productId']);
                 }
 
-                // Check if product has prices
+                // Check if the product has prices
                 $prices = $product->getPrices();
                 if (count($prices) === 0) {
                     throw new \Exception('No prices found for product: ' . $product->getId());
                 }
 
-                // Use the first price as an example
+                // Use the first price to calculate the total (Polymorphic call for future enhancements)
                 $price = $prices[0];
-
-                $order->addProduct($product);
                 $totalAmount += $price->getAmount() * $item['quantity'];
+
+                // Add the product to the order
+                $order->addProduct($product);
             }
 
             $order->setTotalAmount($totalAmount);
@@ -50,15 +51,18 @@ class PlaceOrderMutation
             return [
                 'success' => true,
                 'message' => 'Order placed successfully',
-                'orderId' => $order->getId()
+                'orderId' => $order->getId(),
             ];
-
         } catch (\Exception $e) {
-            file_put_contents('error_log.log', 'Error in placeOrder mutation: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n", FILE_APPEND);
+            file_put_contents(
+                'error_log.log',
+                'Error in placeOrder mutation: ' . $e->getMessage() . "\n" . $e->getTraceAsString() . "\n",
+                FILE_APPEND
+            );
 
             return [
                 'success' => false,
-                'message' => 'Failed to place order: ' . $e->getMessage()
+                'message' => 'Failed to place order: ' . $e->getMessage(),
             ];
         }
     }

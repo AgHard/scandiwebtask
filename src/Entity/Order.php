@@ -1,34 +1,18 @@
 <?php
+// src/Entity/Order.php
+
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use App\Entity\Product;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="orders")
  */
-class Order
+class Order extends BaseOrder
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")  // Add this annotation for auto-generation of ID
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $totalAmount;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
     /**
      * @ORM\ManyToMany(targetEntity="Product", cascade={"persist", "remove"})
      * @ORM\JoinTable(name="orders_products",
@@ -44,24 +28,12 @@ class Order
         $this->products = new ArrayCollection();
     }
 
-    public function getId(): int
+    /**
+     * Returns the order details as a string.
+     */
+    public function getOrderDetails(): string
     {
-        return $this->id;
-    }
-
-    public function getTotalAmount(): float
-    {
-        return $this->totalAmount;
-    }
-
-    public function setTotalAmount(float $amount): void
-    {
-        $this->totalAmount = $amount;
-    }
-
-    public function getCreatedAt(): \DateTime
-    {
-        return $this->createdAt;
+        return "Order #" . $this->id . " with total amount: " . $this->totalAmount;
     }
 
     /**
@@ -72,6 +44,9 @@ class Order
         return $this->products;
     }
 
+    /**
+     * Add a product to the order.
+     */
     public function addProduct(Product $product): void
     {
         $this->products[] = $product;

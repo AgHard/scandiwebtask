@@ -20,7 +20,11 @@ class CategoryType extends ObjectType
                 'name' => [
                     'type' => Type::string(),
                     'description' => 'The name of the category',
-                ]
+                ],
+                'type' => [
+                    'type' => Type::string(),
+                    'description' => 'The type of the category (e.g., Tech, Cloth)',
+                ],
             ]
         ]);
     }

@@ -5,8 +5,8 @@ namespace App\GraphQL\Resolvers;
 
 use Doctrine\ORM\EntityManager;
 use App\Entity\Product;
-use App\Entity\Price;
-use App\Entity\Gallery;
+use App\Entity\BasePrice;
+use App\Entity\BaseGallery;
 
 class ProductResolver
 {
@@ -19,22 +19,18 @@ class ProductResolver
 
     public function resolveProducts($category = null)
     {
-        $criteria = [];
-        if ($category !== null) {
-            $criteria['category'] = $category;
-        }
+        $criteria = $category !== null ? ['category' => $category] : [];
         $products = $this->entityManager->getRepository(Product::class)->findBy($criteria);
 
         if (!$products) {
             throw new \Exception('No products found.');
         }
 
-        $productData = [];
-        foreach ($products as $product) {
-            $productData[] = [
+        return array_map(function (Product $product) {
+            return [
                 'id' => $product->getId(),
                 'name' => $product->getName(),
-                'description' => $product->getDescription(),
+                'description' => $product->getProductDescription(), // Polymorphic call
                 'inStock' => $product->getInStock(),
                 'category' => $product->getCategory(),
                 'prices' => $this->resolvePricesByProduct($product),
@@ -42,9 +38,7 @@ class ProductResolver
                 'attributes' => $this->resolveAttributes($product),
                 'imageUrl' => $this->resolveImageUrl($product),
             ];
-        }
-
-        return $productData;
+        }, $products);
     }
 
     public function resolveProductById($productId)
@@ -58,7 +52,7 @@ class ProductResolver
         return [
             'id' => $product->getId(),
             'name' => $product->getName(),
-            'description' => $product->getDescription(),
+            'description' => $product->getProductDescription(), // Polymorphic call
             'inStock' => $product->getInStock(),
             'category' => $product->getCategory(),
             'prices' => $this->resolvePricesByProduct($product),
@@ -70,76 +64,62 @@ class ProductResolver
 
     private function resolvePricesByProduct(Product $product)
     {
-        $prices = $this->entityManager->getRepository(Price::class)->findBy(['product' => $product->getId()]);
+        $prices = $this->entityManager->getRepository(BasePrice::class)->findBy(['product' => $product->getId()]);
 
-        $priceData = [];
-        foreach ($prices as $price) {
-            $priceData[] = [
+        return array_map(function (BasePrice $price) {
+            return [
                 'id' => $price->getId(),
-                'amount' => $price->getAmount(),
-                'currencyLabel' => $price->getCurrencyLabel(),
-                'currencySymbol' => $price->getCurrencySymbol(),
+                'details' => $price->getPriceDetails(),
             ];
-        }
-
-        return $priceData;
+        }, $prices);
     }
 
     private function resolveGalleriesByProduct(Product $product)
     {
-        $galleries = $this->entityManager->getRepository(Gallery::class)->findBy(['product' => $product->getId()]);
+        $galleries = $this->entityManager->getRepository(BaseGallery::class)->findBy(['product' => $product->getId()]);
 
-        $galleryData = [];
-        foreach ($galleries as $gallery) {
-            $galleryData[] = [
+        return array_map(function (BaseGallery $gallery) {
+            return [
                 'id' => $gallery->getId(),
-                'imageUrl' => $gallery->getImageUrl(),
+                'details' => $gallery->getMediaDetails(),
             ];
-        }
-
-        return $galleryData;
+        }, $galleries);
     }
 
     private function resolveImageUrl(Product $product)
     {
-        $gallery = $this->entityManager->getRepository(Gallery::class)->findOneBy(
+        $gallery = $this->entityManager->getRepository(BaseGallery::class)->findOneBy(
             ['product' => $product->getId()],
             ['id' => 'ASC']
         );
 
-        return $gallery ? $gallery->getImageUrl() : null;
+        return $gallery ? $gallery->getMediaDetails() : null;
     }
 
     private function resolveAttributes(Product $product)
     {
         $attributes = $this->entityManager->getRepository('App\Entity\Attribute')->findBy(['product' => $product->getId()]);
 
-        $attributeData = [];
-        foreach ($attributes as $attribute) {
-            $attributeData[] = [
+        return array_map(function ($attribute) {
+            return [
                 'id' => $attribute->getId(),
                 'name' => $attribute->getName(),
                 'type' => $attribute->getType(),
                 'items' => $this->resolveAttributeItems($attribute),
             ];
-        }
-
-        return $attributeData;
+        }, $attributes);
     }
 
     private function resolveAttributeItems($attribute)
     {
         $items = $this->entityManager->getRepository('App\Entity\AttributeItem')->findBy(['attribute' => $attribute->getId()]);
 
-        $itemData = [];
-        foreach ($items as $item) {
-            $itemData[] = [
+        return array_map(function ($item) {
+            return [
                 'id' => $item->getId(),
                 'display_value' => $item->getDisplayValue(),
                 'value' => $item->getValue(),
             ];
-        }
-
-        return $itemData;
+        }, $items);
     }
 }

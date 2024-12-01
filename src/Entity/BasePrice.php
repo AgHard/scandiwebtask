@@ -28,6 +28,16 @@ abstract class BasePrice
      */
     protected $amount;
 
+    /**
+     * @ORM\Column(name="currency_label", type="string", length=50)
+     */
+    private $currencyLabel;
+
+    /**
+     * @ORM\Column(name="currency_symbol", type="string", length=5)
+     */
+    private $currencySymbol;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +62,28 @@ abstract class BasePrice
     public function setAmount(float $amount): self
     {
         $this->amount = $amount;
+        return $this;
+    }
+
+    public function getCurrencyLabel(): ?string
+    {
+        return $this->currencyLabel;
+    }
+
+    public function setCurrencyLabel(string $currencyLabel): self
+    {
+        $this->currencyLabel = $currencyLabel;
+        return $this;
+    }
+
+    public function getCurrencySymbol(): ?string
+    {
+        return $this->currencySymbol;
+    }
+
+    public function setCurrencySymbol(string $currencySymbol): self
+    {
+        $this->currencySymbol = $currencySymbol;
         return $this;
     }
 

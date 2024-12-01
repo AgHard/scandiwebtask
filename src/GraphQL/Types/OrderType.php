@@ -29,6 +29,10 @@ class OrderType extends ObjectType
                     'type' => Type::listOf(Type::nonNull($productType)), // Pass the ProductType object here
                     'description' => 'The list of products in the order',
                 ],
+                'orderDetails' => [
+                    'type' => Type::string(),
+                    'description' => 'Dynamic order details (e.g., delivery address, store location)',
+                ],
             ]
         ]);
     }

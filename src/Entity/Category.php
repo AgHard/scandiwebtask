@@ -20,15 +20,4 @@ class Category extends BaseCategory
     {
         return $this->isParent ? "Parent Category" : "Child Category";
     }
-
-    public function getIsParent(): ?bool
-    {
-        return $this->isParent;
-    }
-
-    public function setIsParent(?bool $isParent): self
-    {
-        $this->isParent = $isParent;
-        return $this;
-    }
 }

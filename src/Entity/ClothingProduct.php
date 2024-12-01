@@ -30,9 +30,9 @@ class ClothingProduct extends Product
 
     public function getProductDescription(): string
     {
-        return "Clothing product description: " . $this->description . 
-               " in size " . $this->size . 
-               ", material: " . $this->material . 
+        return "Clothing product description: " . $this->description .
+               " in size " . $this->size .
+               ", material: " . $this->material .
                ", color: " . $this->color;
     }
 
