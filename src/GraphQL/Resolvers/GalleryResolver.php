@@ -27,7 +27,7 @@ class GalleryResolver
         return array_map(function (BaseGallery $gallery) {
             return [
                 'id' => $gallery->getId(),
-                'mediaDetails' => $gallery->getMediaDetails(), // Polymorphic call
+                'details' => $gallery->getMediaDetails(), // Polymorphic call
                 'product' => $gallery->getProduct()->getId(),
             ];
         }, $galleries);

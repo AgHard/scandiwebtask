@@ -98,28 +98,14 @@ class ProductResolver
 
     private function resolveAttributes(Product $product)
     {
-        $attributes = $this->entityManager->getRepository('App\Entity\Attribute')->findBy(['product' => $product->getId()]);
+        $attributes = $this->entityManager->getRepository('App\Entity\BaseAttribute')->findBy(['product' => $product->getId()]);
 
         return array_map(function ($attribute) {
             return [
                 'id' => $attribute->getId(),
                 'name' => $attribute->getName(),
-                'type' => $attribute->getType(),
-                'items' => $this->resolveAttributeItems($attribute),
+                'details' => $attribute->getAttributeDetails(),
             ];
         }, $attributes);
-    }
-
-    private function resolveAttributeItems($attribute)
-    {
-        $items = $this->entityManager->getRepository('App\Entity\AttributeItem')->findBy(['attribute' => $attribute->getId()]);
-
-        return array_map(function ($item) {
-            return [
-                'id' => $item->getId(),
-                'display_value' => $item->getDisplayValue(),
-                'value' => $item->getValue(),
-            ];
-        }, $items);
     }
 }

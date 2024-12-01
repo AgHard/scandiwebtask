@@ -26,7 +26,7 @@ abstract class BaseGallery
     /**
      * @ORM\Column(name="image_url", type="string")
      */
-    private $imageUrl;
+    protected $imageUrl;
 
     public function getId(): ?int
     {

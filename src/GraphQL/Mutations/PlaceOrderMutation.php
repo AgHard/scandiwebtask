@@ -3,7 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\Type;
-use App\Entity\Order;
+use App\Entity\BaseOrder;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManager;
 
@@ -20,7 +20,7 @@ class PlaceOrderMutation
     {
         try {
             // Create a new Order instance
-            $order = new Order(); // Polymorphism allows other types of orders in the future
+            $order = new BaseOrder(); // Polymorphism allows other types of orders in the future
             $totalAmount = 0;
 
             foreach ($args['cartItems'] as $item) {

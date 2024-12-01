@@ -3,6 +3,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 /**
@@ -28,15 +29,21 @@ abstract class BaseOrder
     protected $createdAt;
 
     /**
-     * Abstract method to retrieve order details.
+     * @ORM\ManyToMany(targetEntity="Product", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="orders_products",
+     *      joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="product_id", referencedColumnName="id")}
+     * )
      */
-    abstract public function getOrderDetails(): string;
+    protected $products;
 
-    /**
-     * Abstract method to retrieve associated products.
-     * @return Collection|Product[]
-     */
-    abstract public function getProducts(): Collection;
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();
+        $this->products = new ArrayCollection();
+    }
+
+    abstract public function getOrderDetails(): string;
 
     public function getId(): int
     {
@@ -56,5 +63,23 @@ abstract class BaseOrder
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): void
+    {
+        $this->products[] = $product;
+    }
+
+    public function removeProduct(Product $product): void
+    {
+        $this->products->removeElement($product);
     }
 }

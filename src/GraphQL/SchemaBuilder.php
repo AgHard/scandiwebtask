@@ -19,7 +19,6 @@ use App\GraphQL\Resolvers\AttributeResolver;
 use App\GraphQL\Resolvers\AttributeItemResolver;
 use App\GraphQL\Resolvers\GalleryResolver;
 use App\GraphQL\Resolvers\PriceResolver;
-use App\GraphQL\Mutations\BaseMutation;
 use App\GraphQL\Mutations\PlaceOrderMutation;
 use Doctrine\ORM\EntityManager;
 use GraphQL\Type\Definition\InputObjectType;
