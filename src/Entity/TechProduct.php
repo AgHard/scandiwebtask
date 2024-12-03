@@ -11,6 +11,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class TechProduct extends Product
 {
+
+    public function __construct(int $id, string $name)
+    {
+        parent::__construct($id, $name);
+    }
     public function getProductDescription(): string
     {
         return "Tech product description: " . $this->description;
